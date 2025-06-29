@@ -8,12 +8,12 @@ Render a colorful, spinning ASCII donut in your terminal — featuring dynamic c
 
 ## Features
 
-- Smooth, continuous spinning animation
-- Automatically transitioning ASCII color palette
-- Keyboard input to control spin speed in real time
-- Lightweight: no graphics engine, pure Python math
-- Motion trail effects for a sleek, glowing aesthetic
-- Compatible with macOS Terminal & most modern terminals
+* Smooth, continuous spinning animation
+* Automatically transitioning ASCII color palette
+* Keyboard input to control spin speed in real time
+* Lightweight: no graphics engine, pure Python math
+* Motion trail effects for a sleek, glowing aesthetic
+* Compatible with macOS Terminal & most modern terminals
 
 ---
 
@@ -40,22 +40,10 @@ pynput
 python donut.py
 ```
 
-- Press ↑ to speed up rotation
-- Press ↓ to slow down rotation
-- Real-time speed display shown at bottom
-- Exit anytime with `Ctrl+C`
-
----
-
-## Create a GIF from Terminal
-
-To capture a `.gif` animation from your terminal:
-
-```bash
-python record_donut.py
-```
-
-This will save a `donut.gif` using `pyautogui` and `imageio`. Ensure terminal is in focus during recording.
+* Press ↑ to speed up rotation
+* Press ↓ to slow down rotation
+* Real-time speed display shown at bottom
+* Exit anytime with `Ctrl+C`
 
 ---
 
@@ -63,24 +51,30 @@ This will save a `donut.gif` using `pyautogui` and `imageio`. Ensure terminal is
 
 This spinning donut is a faithful Python adaptation of [Andy Sloane's original `donut.c`](https://www.a1k0n.net/2011/07/20/donut-math.html). The rendering relies on clever 3D math and ASCII projection:
 
-* **Torus Geometry**: A donut (torus) is drawn by rotating a circle around an axis. This is defined using two angles — `θ` (theta) for the inner circle and `φ` (phi) for the revolution.
+* **Torus Geometry**: A donut (torus) is drawn by rotating a circle of radius `R1` around a larger circle of radius `R2`, creating a solid of revolution.
 
-* **3D Rotation**: Applies transformations around the X and Z axes using sin/cos of time-based variables `A` and `B`, which increment each frame.
+* **3D Rotation**: The shape rotates dynamically around the X and Z axes via angles `A` and `B`, with sin/cos values updating each frame.
 
-* **Z-buffering**: A simple depth buffer ensures correct rendering order of surface points.
+* **Z-buffering**: A depth buffer tracks the closest surface points to correctly handle overlaps.
 
-* **Projection**: The 3D `(x, y, z)` points are projected onto a 2D screen using a perspective formula:
+* **Projection**: 3D points `(x, y, z)` are projected to 2D screen space using:
 
-  ```
+  ```python
   x' = K1 * x / (K2 + z)
   y' = K1 * y / (K2 + z)
   ```
 
-* **Lighting & Shading**: Illumination is calculated using dot product of the surface normal and a light vector `(0, 1, -1)`, determining the brightness level.
+* **Lighting & Shading**: Surface normals are derived using the same rotation math and used with a light vector `(0, 1, -1)` to compute luminance, which determines brightness:
 
-* **ASCII Rendering**: The brightness is mapped to ASCII characters like `.,-~:;=!*#$@` to simulate shading.
+  ```python
+  L = cos(φ) * sin(θ) * sin(B) - cos(A) * sin(θ) * sin(φ) - sin(A) * cos(θ) + cos(B) * (cos(A) * cos(θ) - sin(A) * sin(θ) * sin(φ))
+  ```
 
-The Python version adds real-time speed control and color effects, preserving the algorithm’s charm while modernizing the experience.
+* **ASCII Rendering**: Brightness levels map to characters like `.,-~:;=!*#$@` from darkest to lightest.
+
+> This Python implementation closely follows the math detailed in Andy Sloane's writeup, performing matrix-based transformations and perspective projection in a simplified yet effective way.
+
+For more detail, see the original explanation: [Donut math: how donut.c works](https://www.a1k0n.net/2011/07/20/donut-math.html).
 
 ---
 
@@ -105,19 +99,19 @@ This project was inspired by [a1k0n's legendary donut math demo](https://www.a1k
 
 ## Future Ideas
 
-- Add mouse interaction (e.g. drag to rotate, click to pause)
-- Toggle animation modes: wireframe, filled, shadows
-- Support ASCII shading themes (classic, neon, retro)
-- Publish as a pip package (`pip install ascii-donut`)
-- Turn into a desktop widget using tkinter or Electron
+* Add mouse interaction (e.g. drag to rotate, click to pause)
+* Toggle animation modes: wireframe, filled, shadows
+* Support ASCII shading themes (classic, neon, retro)
+* Publish as a pip package (`pip install ascii-donut`)
+* Turn into a desktop widget using tkinter or Electron
 
 ---
 
 ## Credits
 
-- Core algorithm and math: [Andy Sloane (a1k0n)](https://www.a1k0n.net/2011/07/20/donut-math.html)
-- Python adaptation & enhancements: [@Prasadkurapati](https://github.com/Prasadkurapati)
-- Terminal ASCII inspiration: CLI artists and retro devs everywhere
+* Core algorithm and math: [Andy Sloane (a1k0n)](https://www.a1k0n.net/2011/07/20/donut-math.html)
+* Python adaptation & enhancements: [@Prasadkurapati](https://github.com/Prasadkurapati)
+* Terminal ASCII inspiration: CLI artists and retro devs everywhere
 
 ---
 

@@ -98,4 +98,4 @@ This project was inspired by [a1k0n's legendary donut math demo](https://www.a1k
 
 ## License
 
-MIT License — free to use, modify, and distribute.
+This project is licensed under the [MIT License](./LICENSE) — free to use, modify, and distribute.

@@ -63,7 +63,6 @@ This will save a `donut.gif` using `pyautogui` and `imageio`. Ensure terminal is
 
 ```
 ├── donut.py             # Main donut animation script
-├── record_donut.py      # Optional screen recorder script
 ├── donut.gif            # Sample animated output
 ├── .gitignore
 └── requirements.txt
